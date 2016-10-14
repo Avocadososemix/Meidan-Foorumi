@@ -89,17 +89,31 @@ public class AlueDao implements Dao<Alue, Integer>{
     
     public List<AlueJaViestit> haeAlueetViesteineen() throws SQLException {
         Connection connection = this.database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SQL"); 
+        PreparedStatement stmt = connection.prepareStatement("SELECT Alue.alue_id, Alue.nimi, "
+                + "COUNT(Viesti.id) AS viestit "
+                + "FROM Viesti INNER JOIN Keskustelunavaus ON Viesti.keskustelunavaus=Keskustelunavaus.id "
+                + "INNER JOIN Alue ON Keskustelunavaus.alue=Alue.alue_id GROUP BY Alue.nimi;"); 
 
         ResultSet rs = stmt.executeQuery();
         List<AlueJaViestit> alueet = new ArrayList<>();
         
         while (rs.next()) {
+            String alueId = rs.getString("alue_id");
             String alueNimi = rs.getString("nimi");
-            Integer viestienLkm = rs.getInt("lkm"); //Miten viestien lukumäärä on nimetty?
-            Timestamp viimeinenViesti = rs.getTimestamp("aika"); //Miten viimeisen viestin aika on nimetty?
+            Integer viestienLkm = rs.getInt("viestit"); //Miten viestien lukumäärä on nimetty?
+            
+            PreparedStatement stmt1 = connection.prepareStatement("SELECT Viesti.aika "
+                    + "FROM Viesti, Keskustelunavaus, Alue "
+                    + "WHERE VIesti.keskustelunavaus=Keskustelunavaus.id "
+                    + "AND Keskustelunavaus.alue=?"
+                    + "ORDER BY Viesti.id DESC LIMIT 1");
+            stmt1.setObject(1, alueId);
+            ResultSet rs1 = stmt1.executeQuery();
+            
+            String viimeinenViesti = rs1.getString("aika"); //Miten viimeisen viestin aika on nimetty?
             alueet.add(new AlueJaViestit(alueNimi, viestienLkm, viimeinenViesti));
         }
+        
         return alueet;
     }
     

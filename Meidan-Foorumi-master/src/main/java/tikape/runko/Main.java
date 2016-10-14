@@ -28,7 +28,7 @@ public class Main {
             HashMap map = new HashMap<>();
             //map.put("alueet", alueDao.haeAlueetViesteineen());
             //map.put("alueet", alueDao.etsiKaikki());
-            map.put("viestienMaarat", viestiDao.etsiAlueidenViestit()); //hakee jokaisen alueen kaikkien viestien lukumäärät listana
+            map.put("alueet", alueDao.haeAlueetViesteineen()); //hakee jokaisen alueen kaikkien viestien lukumäärät listana
             //map.put("viimeisin", viestiDao.)
             
             //ongelma: miten saada thymeleafille tieto alueen viesteistä ilman, että niitä laittaa erillisessä listassa?

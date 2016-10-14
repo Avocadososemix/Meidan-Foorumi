@@ -15,9 +15,14 @@
            <th>Viimeisin viesti</th>
         </tr>
         <tr th:each="alue: ${alueet}"> <!-- th:each="viestit: ${viestienMaarat}"-->
-           <td th:text="${alue.nimi}">Alueen nimi</td>
-           <td th:text="${viestit}">Viestit</td> <!--Helpoimmalla pääsisi jos säilöisi alueessa viestien määrän, mutta se ei noudata normaalimuotoja-->
+           <td th:text="${alue.otsikko}">Alueen nimi</td>
+           <td th:text="${alue.viestit}">Viestit yhteensä</td> 
+           <td th:text="${alue.viimeinenViesti}">Viimeisen viestin pvm</td>
         </tr>
     </table>
+    <form method="POST" action="/">
+      <input type="text" name="alue"/><br/>
+      <input type="submit" value="Lisää alue"/>
+    </form>
 </body>
 </html>
