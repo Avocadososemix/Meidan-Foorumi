@@ -77,7 +77,7 @@ public class AlueDao implements Dao<Alue, Integer>{
     
     public List<Timestamp> haeViimeisenViestinAika() {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT Viesti.aika FROM  WHERE id = ?");
+        //PreparedStatement stmt = connection.prepareStatement("SELECT Viesti.aika FROM  WHERE id = ?");
 
         //ResultSet rs = stmt.executeQuery();
 
