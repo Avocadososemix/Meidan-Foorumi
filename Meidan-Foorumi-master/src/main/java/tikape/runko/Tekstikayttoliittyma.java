@@ -1,6 +1,7 @@
 package tikape.runko;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Scanner;
 import java.util.*;
 import java.util.logging.Level;
@@ -10,22 +11,18 @@ import tikape.runko.database.KeskustelunavausDao;
 import tikape.runko.database.ViestiDao;
 import tikape.runko.database.Database;
 import tikape.runko.domain.Alue;
+import tikape.runko.domain.AlueJaViestit;
 import tikape.runko.domain.Keskustelunavaus;
 import tikape.runko.domain.Viesti;
 
 
-//Moi tiimi! Jotta tämä toimii, tulisi Database.javaan liittyä joku tietokantataulu
-//Muuten "toimii", mutta ei tietenkään löydä mitään. Voin vielä säätää tätä myöh.
-//Olisi pitänyt käyttää enempi metodeja tässä, mutta copypastella meni.
-//Myös täytyy mainiin lisätä:
+//täytyy mainiin lisätä jotta voi kokeilla:
 //
 //    public static void main(String[] args) throws ClassNotFoundException {
 //
 //        Tekstikayttoliittyma testi = new Tekstikayttoliittyma();
 //    }
 //
-
-
 public class Tekstikayttoliittyma {
 
     private Scanner lukija;
@@ -34,7 +31,7 @@ public class Tekstikayttoliittyma {
     private ViestiDao viestidao;
     private KeskustelunavausDao keskustelunavausdao;
 
-    public Tekstikayttoliittyma() throws ClassNotFoundException {
+    public Tekstikayttoliittyma() throws ClassNotFoundException, Exception {
         Database database = new Database("jdbc:sqlite:opiskelijat.db");
 
         database.init();
@@ -61,24 +58,46 @@ public class Tekstikayttoliittyma {
                     System.out.println("Komento ei toiminut. Kaikkeutta ei löytynyt");
                 }
 
-//        //Toistaiseksi tallenus ei toimi, niin tätä ei voi testata.
-//        System.out.println("Mikä alue tallennetaan? Anna nimi: ");
-//        String aluetallennus = scanner.nextLine();
-//        int aluehakuu = Integer.parseInt(aluetallennus);
-//
-//        try {
-//            List<Alue> Kokeilutallennus = aluedao.tallenna(Alue aluehakuu);
-//            System.out.println("Tallennettu");
-//        } catch (SQLException ex) {
-//            System.out.println("Ei tallentunut");
-//        }
+                try {
+                    List<AlueJaViestit> Kokeilu = aluedao.haeAlueetViesteineen();
+                    System.out.println("Etsitään kaikki alueet ja viestien lkm: ");
+                    for (AlueJaViestit a : Kokeilu) {
+                        System.out.println(a.getOtsikko() + " " + a.getViestit());
+                    }
+                } catch (SQLException ex) {
+                    System.out.println("Komento ei toiminut. Kaikkeutta ei löytynyt");
+                }
+
+//                try {
+//                    List<Timestamp> Kokeilu = aluedao.haeViimeisenViestinAika();
+//                    System.out.println("Etsitään viimeisen viestin aika: ");
+//                    for (Timestamp a : Kokeilu) {
+//                        System.out.println(a.alueet());
+//                    }
+//                } catch (SQLException ex) {
+//                    System.out.println("Komento ei toiminut. Viimeisen viestin aikaa ei löytynyt");
+//                }
+
+                System.out.println("Mikä alue tallennetaan? Anna nimi: ");
+                String aluetallennus = scanner.nextLine();
+
+                try {
+                    aluedao.tallenna(aluetallennus);
+                    System.out.println("Tallennettu");
+//                    System.out.println(a.getId());
+                    
+                } catch (SQLException ex) {
+                    System.out.println("Ei tallentunut");
+                }
+
+                //Tässä en älynnyt miten saan toimimaan taas. Jostain syystä ei kokeile edes tuota try:n jälkeistä koodia.
                 System.out.println("Mikä alue haetaan? Anna ID: ");
                 String aluehaku = scanner.nextLine();
                 int aluehakuq = Integer.parseInt(aluehaku);
 
                 try {
                     List<Alue> Kokeilu2 = aluedao.etsiTietyt(aluehakuq);
-                    System.out.println("Yritetään etsiä yksi");
+                    System.out.println("Yritetään etsiä yksi. Voit hakea vaikka äskettäin luodun alueen jos tiedät ID:n");
                     for (Alue b : Kokeilu2) {
                         System.out.println("a.getNimi");
                     }
