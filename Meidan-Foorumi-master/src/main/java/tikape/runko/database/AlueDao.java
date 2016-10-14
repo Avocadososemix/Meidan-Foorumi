@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +46,13 @@ public class AlueDao implements Dao<Alue, Integer>{
         return alueet;
     }
 
-    @Override
-    public void tallenna(Alue Element) throws SQLException {
-        
+    public void tallenna(String nimi) throws SQLException {
+        Connection connection = this.database.getConnection();
+        Statement stmt = connection.createStatement();
+        stmt.execute("INSERT INTO Alue(nimi) "
+                + "VALUES ('" + nimi + "')");
+        stmt.close();
+        connection.close();
     }
 
 
@@ -56,6 +61,7 @@ public class AlueDao implements Dao<Alue, Integer>{
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Alue WHERE id = ?");
         stmt.setObject(1, key);
+      
 
         ResultSet rs = stmt.executeQuery();
 
@@ -75,7 +81,7 @@ public class AlueDao implements Dao<Alue, Integer>{
 
         return alueet;    
     }
-    
+    /*
     public List<Timestamp> haeViimeisenViestinAika() throws Exception {
         Connection connection = database.getConnection();
         //PreparedStatement stmt = connection.prepareStatement("SELECT Viesti.aika FROM  WHERE id = ?");
@@ -86,34 +92,52 @@ public class AlueDao implements Dao<Alue, Integer>{
         
         return alueet;
     }
+    */
     
     public List<AlueJaViestit> haeAlueetViesteineen() throws SQLException {
         Connection connection = this.database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT Alue.alue_id, Alue.nimi, "
                 + "COUNT(Viesti.id) AS viestit "
-                + "FROM Viesti INNER JOIN Keskustelunavaus ON Viesti.keskustelunavaus=Keskustelunavaus.id "
-                + "INNER JOIN Alue ON Keskustelunavaus.alue=Alue.alue_id GROUP BY Alue.nimi;"); 
+                + "FROM Alue LEFT JOIN Keskustelunavaus ON Keskustelunavaus.alue=Alue.alue_id "
+                + "LEFT JOIN Viesti ON Viesti.keskustelunavaus=Keskustelunavaus.id GROUP BY Alue.nimi"); 
 
         ResultSet rs = stmt.executeQuery();
         List<AlueJaViestit> alueet = new ArrayList<>();
         
         while (rs.next()) {
-            String alueId = rs.getString("alue_id");
+            Integer alueId = rs.getInt("alue_id");
+            System.out.println("ALueId: " + alueId);
             String alueNimi = rs.getString("nimi");
-            Integer viestienLkm = rs.getInt("viestit"); //Miten viestien lukumäärä on nimetty?
+            Integer viestienLkm = rs.getInt("viestit"); 
             
             PreparedStatement stmt1 = connection.prepareStatement("SELECT Viesti.aika "
                     + "FROM Viesti, Keskustelunavaus, Alue "
-                    + "WHERE VIesti.keskustelunavaus=Keskustelunavaus.id "
-                    + "AND Keskustelunavaus.alue=?"
+                    + "WHERE Viesti.keskustelunavaus=Keskustelunavaus.id "
+                    + "AND Keskustelunavaus.alue = Alue.alue_id "
+                    + "AND Alue.alue_id = ?"
                     + "ORDER BY Viesti.id DESC LIMIT 1");
-            stmt1.setObject(1, alueId);
+            stmt1.setInt(1, alueId);
+            
             ResultSet rs1 = stmt1.executeQuery();
             
-            String viimeinenViesti = rs1.getString("aika"); //Miten viimeisen viestin aika on nimetty?
+            
+            boolean seuraava = rs1.next(); //Ongelma: palauttaa nullin --> tarkistaa nollan liian aikasin?
+            String viimeinenViesti = "";
+            if (!seuraava) {
+                viimeinenViesti = "----";
+            } else {
+                viimeinenViesti = rs1.getString("aika");
+                System.out.println("Viimeisen viestin aika: " + viimeinenViesti);   
+            }
+            rs1.close();
+            stmt1.close();  
+            System.out.println("Lisään alueet-listaan Alue ja Viesti");
             alueet.add(new AlueJaViestit(alueNimi, viestienLkm, viimeinenViesti));
         }
-        
+        rs.close();
+        stmt.close();
+        connection.close();
+        System.out.println("Alueet: " + alueet);
         return alueet;
     }
     

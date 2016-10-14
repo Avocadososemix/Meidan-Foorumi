@@ -4,27 +4,27 @@ package tikape.runko.domain;
 import java.sql.Timestamp;
 
 public class AlueJaViestit {
-    private String otsikko;
+    private String nimi;
     private Integer viestit;
     private String viimeinenViesti;
     
     public AlueJaViestit (String otsikko, Integer viestit, String viimeinenViesti) {
-        this.otsikko = otsikko;
+        this.nimi = otsikko;
         this.viestit = viestit;
         this.viimeinenViesti = viimeinenViesti;
     }
 
     public AlueJaViestit (String otsikko, Integer viestit) {
-        this.otsikko = otsikko;
+        this.nimi = otsikko;
         this.viestit = viestit;
     }    
     
     public String getOtsikko() {
-        return otsikko;
+        return nimi;
     }
 
     public void setOtsikko(String otsikko) {
-        this.otsikko = otsikko;
+        this.nimi = otsikko;
     }
 
     public Integer getViestit() {
@@ -39,7 +39,7 @@ public class AlueJaViestit {
         return viimeinenViesti;
     }
 
-    public void setViimeinenViesti(Timestamp viimeinenViesti) {
+    public void setViimeinenViesti(String viimeinenViesti) {
         this.viimeinenViesti = viimeinenViesti;
     }
     

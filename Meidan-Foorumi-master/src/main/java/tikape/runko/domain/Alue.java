@@ -9,6 +9,7 @@ public class Alue {
         this.id = id;
         this.nimi = nimi;
     }
+    
 
     public Integer getId() {
         return id;

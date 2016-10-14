@@ -49,8 +49,7 @@ public class ViestiDao implements Dao<Viesti, Integer>{
         return viestit;
     }
 
-    @Override
-    public void tallenna(Viesti Element) throws SQLException {
+    public void tallenna() throws SQLException {
             // .. 
             //Datetime('now'); haekee tämänhetkisen ajan 
     }

@@ -48,8 +48,7 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer>{
         return keskustelunavaukset;
     }
 
-    @Override
-    public void tallenna(Keskustelunavaus Element) throws SQLException {
+    public void tallenna() throws SQLException {
         
     }
 

@@ -8,21 +8,21 @@
 </head>
 <body>
     <h1>Tervetuloa foorumillemme</h1>
-    <table> <!--Onko mahdollista käydä samaan aikaan kahta for eachia läpi?-->
+    <table> 
         <tr>
            <th>Alue</th>
            <th>Viestejä yhteensä</th>
            <th>Viimeisin viesti</th>
         </tr>
-        <tr th:each="alue: ${alueet}"> <!-- th:each="viestit: ${viestienMaarat}"-->
+        <tr th:each="alue: ${alueet}"> 
            <td th:text="${alue.otsikko}">Alueen nimi</td>
-           <td th:text="${alue.viestit}">Viestit yhteensä</td> 
+           <td <a th:href="@{~/{id}(id=${alue.otsikko}}th:text="${alue.viestit}">Viestit yhteensä</td> 
            <td th:text="${alue.viimeinenViesti}">Viimeisen viestin pvm</td>
         </tr>
     </table>
     <form method="POST" action="/">
       <input type="text" name="alue"/><br/>
       <input type="submit" value="Lisää alue"/>
-    </form>
+    </form> 
 </body>
 </html>
