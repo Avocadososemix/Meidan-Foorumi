@@ -75,7 +75,7 @@ public class AlueDao implements Dao<Alue, Integer>{
         return alueet;    
     }
     
-    public List<Timestamp> haeViimeisenViestinAika() {
+    public List<Timestamp> haeViimeisenViestinAika() throws Exception {
         Connection connection = database.getConnection();
         //PreparedStatement stmt = connection.prepareStatement("SELECT Viesti.aika FROM  WHERE id = ?");
 
