@@ -4,16 +4,16 @@ import java.util.HashMap;
 import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
-import tikape.runko.database.Database;
-import tikape.runko.database.OpiskelijaDao;
+import tikape.runko.database.EsimerkkiDatabase;
+import tikape.runko.database.EsimerkkiOpiskelijaDao;
 
-public class Main {
+public class EsimerkkiMain {
 
     public static void main(String[] args) throws Exception {
-        Database database = new Database("jdbc:sqlite:opiskelijat.db");
+        EsimerkkiDatabase database = new EsimerkkiDatabase("jdbc:sqlite:opiskelijat.db");
         database.init();
 
-        OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
+        EsimerkkiOpiskelijaDao opiskelijaDao = new EsimerkkiOpiskelijaDao(database);
 
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
