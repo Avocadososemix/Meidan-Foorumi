@@ -5,6 +5,7 @@
  */
 package tikape.runko.database;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,7 +51,8 @@ public class ViestiDao implements Dao<Viesti, Integer>{
 
     @Override
     public void tallenna(Viesti Element) throws SQLException {
-
+            // .. 
+            //Datetime('now'); haekee tämänhetkisen ajan 
     }
 
     @Override
@@ -82,12 +84,18 @@ public class ViestiDao implements Dao<Viesti, Integer>{
     
     public List<Integer> etsiAlueidenViestit() throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT alue_id, COUNT(Viesti.id) AS viestit "
+
+        String kysely = "SELECT alue_id, COUNT(Viesti.id) AS viestit "
                 + "FROM Viesti INNER JOIN Keskustelunavaus "
                 + "ON Viesti.keskustelunavaus=Keskustelunavaus.id "
                 + "INNER JOIN Alue "                                 //Valittaa syntaksivirhettä
                 + "ON Keskustelunavaus.alue=Alue.alue_id "
-                + "GROUP BY alue_id");
+                + "GROUP BY alue_id";
+        System.out.println("");
+        System.out.println(kysely);
+        System.out.println("");
+
+        PreparedStatement stmt = connection.prepareStatement(kysely);
         
         ResultSet rs = stmt.executeQuery();
 

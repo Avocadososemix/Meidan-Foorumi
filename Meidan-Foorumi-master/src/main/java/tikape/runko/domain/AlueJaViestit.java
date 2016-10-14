@@ -13,6 +13,30 @@ public class AlueJaViestit {
         this.viestit = viestit;
         this.viimeinenViesti = viimeinenViesti;
     }
+
+    public String getOtsikko() {
+        return otsikko;
+    }
+
+    public void setOtsikko(String otsikko) {
+        this.otsikko = otsikko;
+    }
+
+    public Integer getViestit() {
+        return viestit;
+    }
+
+    public void setViestit(Integer viestit) {
+        this.viestit = viestit;
+    }
+
+    public Timestamp getViimeinenViesti() {
+        return viimeinenViesti;
+    }
+
+    public void setViimeinenViesti(Timestamp viimeinenViesti) {
+        this.viimeinenViesti = viimeinenViesti;
+    }
     
     
 }

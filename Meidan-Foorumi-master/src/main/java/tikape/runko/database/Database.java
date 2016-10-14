@@ -50,12 +50,12 @@ public class Database {
         lista.add("INSERT INTO Keskustelunavaus (otsikko, alue) VALUES ('Python', 1)");
         lista.add("INSERT INTO Keskustelunavaus (otsikko, alue) VALUES ('Mosaiikit', 2)");
         
-        lista.add("INSERT INTO Viesti (lähettäjä, viesti, keskustelunavaus) VALUES ('Irene', 'En pidä mosaiikeista', 3)");
-        lista.add("INSERT INTO Viesti (lähettäjä, viesti, keskustelunavaus) VALUES ('Eneri', 'Minä pidän mosaiikeista', 3)");
+        lista.add("INSERT INTO Viesti (aika, lähettäjä, viesti, keskustelunavaus) VALUES (Datetime('now'), 'Irene', 'En pidä mosaiikeista', 3)");
+        lista.add("INSERT INTO Viesti (aika, lähettäjä, viesti, keskustelunavaus) VALUES (Datetime('now'), 'Eneri', 'Minä pidän mosaiikeista', 3)");
         
-        lista.add("INSERT INTO Viesti (lähettäjä, viesti, keskustelunavaus) VALUES ('Irene', 'Moi vaan kaikki Javaihmiset', 1)");
-        lista.add("INSERT INTO Viesti (lähettäjä, viesti, keskustelunavaus) VALUES ('Jonne', 'Moi vaan', 1)");
-        lista.add("INSERT INTO Viesti (lähettäjä, viesti, keskustelunavaus) VALUES ('Oskari', 'Moi en oo käärme', 2)");
+        lista.add("INSERT INTO Viesti (aika, lähettäjä, viesti, keskustelunavaus) VALUES (Datetime('now'), 'Irene', 'Moi vaan kaikki Javaihmiset', 1)");
+        lista.add("INSERT INTO Viesti (aika, lähettäjä, viesti, keskustelunavaus) VALUES (Datetime('now'), 'Jonne', 'Moi vaan', 1)");
+        lista.add("INSERT INTO Viesti (aika, lähettäjä, viesti, keskustelunavaus) VALUES (Datetime('now'), 'Oskari', 'Moi en oo käärme', 2)");
         
         
         return lista;

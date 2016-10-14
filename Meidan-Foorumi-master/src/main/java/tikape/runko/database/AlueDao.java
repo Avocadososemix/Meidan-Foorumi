@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Alue;
+import tikape.runko.domain.AlueJaViestit;
 /**
  *
  * @author nikkaire
@@ -83,6 +84,22 @@ public class AlueDao implements Dao<Alue, Integer>{
 
         List<Timestamp> alueet = new ArrayList<>();
         
+        return alueet;
+    }
+    
+    public List<AlueJaViestit> haeAlueetViesteineen() throws SQLException {
+        Connection connection = this.database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SQL"); 
+
+        ResultSet rs = stmt.executeQuery();
+        List<AlueJaViestit> alueet = new ArrayList<>();
+        
+        while (rs.next()) {
+            String alueNimi = rs.getString("nimi");
+            Integer viestienLkm = rs.getInt("lkm"); //Miten viestien lukumäärä on nimetty?
+            Timestamp viimeinenViesti = rs.getTimestamp("aika"); //Miten viimeisen viestin aika on nimetty?
+            alueet.add(new AlueJaViestit(alueNimi, viestienLkm, viimeinenViesti));
+        }
         return alueet;
     }
     

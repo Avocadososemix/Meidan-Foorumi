@@ -11,6 +11,7 @@ import tikape.runko.database.AlueDao;
 import tikape.runko.database.Database;
 import tikape.runko.database.KeskustelunavausDao;
 import tikape.runko.database.ViestiDao;
+import tikape.runko.domain.AlueJaViestit;
 
 public class Main {
 
@@ -25,7 +26,8 @@ public class Main {
 
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("alueet", alueDao.etsiKaikki());
+            //map.put("alueet", alueDao.haeAlueetViesteineen());
+            //map.put("alueet", alueDao.etsiKaikki());
             map.put("viestienMaarat", viestiDao.etsiAlueidenViestit()); //hakee jokaisen alueen kaikkien viestien lukumäärät listana
             //map.put("viimeisin", viestiDao.)
             
