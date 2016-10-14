@@ -132,7 +132,7 @@ public class AlueDao implements Dao<Alue, Integer>{
             rs1.close();
             stmt1.close();  
             System.out.println("Lisään alueet-listaan Alue ja Viesti");
-            alueet.add(new AlueJaViestit(alueNimi, viestienLkm, viimeinenViesti));
+            alueet.add(new AlueJaViestit(alueId, alueNimi, viestienLkm, viimeinenViesti));
         }
         rs.close();
         stmt.close();

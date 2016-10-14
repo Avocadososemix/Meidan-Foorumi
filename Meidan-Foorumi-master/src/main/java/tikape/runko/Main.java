@@ -35,6 +35,12 @@ public class Main {
             res.redirect("/");
             return "ok";
         });
+        
+        get("/alue/:id", (req, res) -> {
+            HashMap map = new HashMap<>();
+            
+            return "Moi, painoit siis linkistä!";
+        });
 
     }
     

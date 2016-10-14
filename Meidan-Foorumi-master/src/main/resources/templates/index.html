@@ -15,8 +15,8 @@
            <th>Viimeisin viesti</th>
         </tr>
         <tr th:each="alue: ${alueet}"> 
-           <td th:text="${alue.otsikko}">Alueen nimi</td>
-           <td <a th:href="@{~/{id}(id=${alue.otsikko}}th:text="${alue.viestit}">Viestit yhteensä</td> 
+            <td><a th:href="@{~/alue/{id}(id=${alue.id})}" th:text="${alue.nimi}">Alueen nimi</a></td>  
+           <td th:text="${alue.viestit}"> > Viestit yhteensä</td>
            <td th:text="${alue.viimeinenViesti}">Viimeisen viestin pvm</td>
         </tr>
     </table>
