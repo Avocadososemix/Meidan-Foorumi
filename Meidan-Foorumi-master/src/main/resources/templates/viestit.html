@@ -8,9 +8,13 @@
 </head>
 
     <body>
-        <span th:each="viesti: ${viestit}">
-            <span th:text="${viesti.viesti}">Viesti</span>
-        </span>
+        <h4 th:text="'Alue: ' + ${alue.nimi} + ' ---> ' + ${keskustelu.otsikko}">Alue ja keskustelu</h4>
+        <ul>
+            <li th:each="viesti : ${viestit}">
+                <span th:text="${viesti.viesti}">viesti</span>
+                <span th:text="'t. ' + ${viesti.lähettäjä}">lähettäjä</span>
+            </li>
+        </ul>
         
         <form method="POST">
             <!-- <input type="text" name="viesti"/> -->

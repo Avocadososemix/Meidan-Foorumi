@@ -54,6 +54,8 @@ public class Main {
             HashMap map = new HashMap<>();
             map.put("viestit", viestiDao.etsiKeskustelunViestit(Integer.parseInt(req.params(":alueid")), Integer.parseInt(req.params(":keskusteluid")))); //ei toimi
             map.put("keskustelu", keskustelunavausDao.etsi(Integer.parseInt(req.params(":keskusteluid"))));
+            map.put("alue", alueDao.etsi(Integer.parseInt(req.params(":alueid"))));
+            
             return new ModelAndView(map, "viestit");
         }, new ThymeleafTemplateEngine());
         
