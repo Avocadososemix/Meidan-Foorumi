@@ -55,31 +55,29 @@ public class AlueDao implements Dao<Alue, Integer>{
         connection.close();
     }
 
-
-    @Override
-    public List<Alue> etsiTietyt(Integer key) throws SQLException {
+    
+    public Alue etsi(Integer key) throws SQLException {                
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Alue WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Alue WHERE alue_id = ?");
         stmt.setObject(1, key);
       
 
         ResultSet rs = stmt.executeQuery();
 
-        List<Alue> alueet = new ArrayList<>();
-        
-        while (rs.next()) {
-            Integer id = rs.getInt("id");
+        boolean seuraava = rs.next(); 
+        String viimeinenViesti = "";
+        if (!seuraava) {
+            stmt.close();
+            connection.close();
+            return null;
+        } else {
+            Integer id = rs.getInt("alue_id");
             String nimi = rs.getString("nimi");
-
-            alueet.add(new Alue(id, nimi));
+        
+            stmt.close();
+            connection.close();
+            return new Alue(id, nimi);
         }
-
-
-        rs.close();
-        stmt.close();
-        connection.close();
-
-        return alueet;    
     }
     /*
     public List<Timestamp> haeViimeisenViestinAika() throws Exception {
@@ -99,14 +97,13 @@ public class AlueDao implements Dao<Alue, Integer>{
         PreparedStatement stmt = connection.prepareStatement("SELECT Alue.alue_id, Alue.nimi, "
                 + "COUNT(Viesti.id) AS viestit "
                 + "FROM Alue LEFT JOIN Keskustelunavaus ON Keskustelunavaus.alue=Alue.alue_id "
-                + "LEFT JOIN Viesti ON Viesti.keskustelunavaus=Keskustelunavaus.id GROUP BY Alue.nimi"); 
+                + "LEFT JOIN Viesti ON Viesti.keskustelunavaus=Keskustelunavaus.id GROUP BY Alue.alue_id"); 
 
         ResultSet rs = stmt.executeQuery();
         List<AlueJaViestit> alueet = new ArrayList<>();
         
         while (rs.next()) {
             Integer alueId = rs.getInt("alue_id");
-            System.out.println("ALueId: " + alueId);
             String alueNimi = rs.getString("nimi");
             Integer viestienLkm = rs.getInt("viestit"); 
             
@@ -121,23 +118,20 @@ public class AlueDao implements Dao<Alue, Integer>{
             ResultSet rs1 = stmt1.executeQuery();
             
             
-            boolean seuraava = rs1.next(); //Ongelma: palauttaa nullin --> tarkistaa nollan liian aikasin?
+            boolean seuraava = rs1.next(); 
             String viimeinenViesti = "";
             if (!seuraava) {
                 viimeinenViesti = "----";
             } else {
                 viimeinenViesti = rs1.getString("aika");
-                System.out.println("Viimeisen viestin aika: " + viimeinenViesti);   
             }
             rs1.close();
             stmt1.close();  
-            System.out.println("Lisään alueet-listaan Alue ja Viesti");
             alueet.add(new AlueJaViestit(alueId, alueNimi, viestienLkm, viimeinenViesti));
         }
         rs.close();
         stmt.close();
         connection.close();
-        System.out.println("Alueet: " + alueet);
         return alueet;
     }
     

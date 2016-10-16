@@ -6,7 +6,5 @@ import java.util.*;
 public interface Dao<T, K> {
 
     List<T> etsiKaikki() throws SQLException;
-    List<T> etsiTietyt (K key) throws SQLException;
-
 
 }
