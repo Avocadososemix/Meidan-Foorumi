@@ -21,14 +21,12 @@ public class Main {
         KeskustelunavausDao keskustelunavausDao = new KeskustelunavausDao(database);
         ViestiDao viestiDao = new ViestiDao(database);
 
-
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("alueet", alueDao.haeAlueetViesteineen()); 
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
-        
         post("/", (req, res) -> {
             alueDao.tallenna(req.queryParams("alue"));
             res.redirect("/");
@@ -58,7 +56,6 @@ public class Main {
             
             return new ModelAndView(map, "viestit");
         }, new ThymeleafTemplateEngine());
-        
         
         post("/alue/:alueid/keskustelu/:keskusteluid", (req, res) -> {
             viestiDao.tallenna(req.queryParams("lähettäjä"), req.queryParams("viesti"), Integer.parseInt(req.params(":keskusteluid"))); //Viesti (aika, lähettäjä, viesti, keskustelunavaus)
