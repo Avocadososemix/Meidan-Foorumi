@@ -89,9 +89,9 @@ public class ViestiDao implements Dao<Viesti, Integer>{
     public List<Viesti> etsiKeskustelunViestit(Integer alue, Integer keskustelu) throws SQLException { //tietty alue ja keskustelu
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement(""
-                + "SELECT * FROM Viesti, Keskustelunavaus "
+                + "SELECT * FROM Viesti JOIN Keskustelunavaus ON Viesti.keskustelunavaus = Keskustelunavaus.id "
                 + "WHERE Viesti.keskustelunavaus = ? "
-                + "AND Keskustelunavaus.alue = ?");
+                + "AND Keskustelunavaus.id = ?");
         stmt.setInt(1, keskustelu);
         stmt.setInt(2, alue);
         

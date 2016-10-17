@@ -36,4 +36,5 @@ public class EsimerkkiMain {
             return new ModelAndView(map, "opiskelija");
         }, new ThymeleafTemplateEngine());
     }
+    
 }
