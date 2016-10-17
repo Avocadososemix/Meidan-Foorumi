@@ -14,7 +14,7 @@
                <th>Viimeisin viesti</th>
             </tr>
             <tr th:each="keskustelunavaus: ${keskustelunavaukset}"> <!-- keskusteluid palauttaa oikein, alueid ei || muutettava Stringiksi?-->
-                <td><a th:href="@{'~/alue/' + ${alue.id} + '/keskustelut/' + ${keskustelunavaus.id}}" th:text="${keskustelunavaus.otsikko}">Alueen nimi</a></td>  <!-- "@{~/alue/{alueid}(alueid=${alue.id})/keskustelut/{keskusteluid}(keskusteluid=${keskustelunavaus.id})}" -->
+                <td><a th:href="@{'~/alue/' + ${alue.id} + '/keskustelu/' + ${keskustelunavaus.id}}" th:text="${keskustelunavaus.otsikko}">Alueen nimi</a></td>  <!-- "@{~/alue/{alueid}(alueid=${alue.id})/keskustelut/{keskusteluid}(keskusteluid=${keskustelunavaus.id})}" -->
                <td th:text="${keskustelunavaus.viestit}">Viestit yhteensä</td>
                <td th:text="${keskustelunavaus.viimeinenViesti}">Viimeisen viestin pvm</td>
             </tr>

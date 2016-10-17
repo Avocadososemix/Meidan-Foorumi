@@ -50,7 +50,7 @@ public class ViestiDao implements Dao<Viesti, Integer>{
         return viestit;
     }
 
-    public void tallenna(String viesti, String lähettäjä, Integer keskustelunavaus) throws SQLException {
+    public void tallenna(String lähettäjä, String viesti, Integer keskustelunavaus) throws SQLException {
         //Datetime('now'); hakee tämänhetkisen ajan 
         Connection connection = this.database.getConnection();
         Statement stmt = connection.createStatement();

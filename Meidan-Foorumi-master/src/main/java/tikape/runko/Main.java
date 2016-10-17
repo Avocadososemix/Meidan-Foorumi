@@ -46,11 +46,11 @@ public class Main {
         post("/alue/:alueid", (req, res) -> { //alueen id  --> näyttää keskustelut
             Integer keskustelunavausId = keskustelunavausDao.tallenna(req.queryParams("keskustelunavaus"), Integer.parseInt(req.params(":alueid")));
             //req.params palauttaa Stringin, jonka Integer.parseInt muuttaa luvuksi
-            res.redirect("/alue/" + req.params(":alueid") + "/keskustelut/"+ Integer.toString(keskustelunavausId)); //ohjataan luomaan viesti --keskustelunavauksen id
+            res.redirect("/alue/" + req.params(":alueid") + "/keskustelu/"+ Integer.toString(keskustelunavausId)); //ohjataan luomaan viesti --keskustelunavauksen id
             return "ok";
         });
         
-        get("/alue/:alueid/keskustelut/:keskusteluid", (req, res) -> { //ei näytä vanhoja viestejä
+        get("/alue/:alueid/keskustelu/:keskusteluid", (req, res) -> { //ei näytä vanhoja viestejä
             HashMap map = new HashMap<>();
             map.put("viestit", viestiDao.etsiKeskustelunViestit(Integer.parseInt(req.params(":alueid")), Integer.parseInt(req.params(":keskusteluid")))); //ei toimi
             map.put("keskustelu", keskustelunavausDao.etsi(Integer.parseInt(req.params(":keskusteluid"))));
@@ -60,9 +60,9 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
         
-        post("/alue/:alueid/keskustelut/:keskusteluid", (req, res) -> {
+        post("/alue/:alueid/keskustelu/:keskusteluid", (req, res) -> {
             viestiDao.tallenna(req.queryParams("lähettäjä"), req.queryParams("viesti"), Integer.parseInt(req.params(":keskusteluid"))); //Viesti (aika, lähettäjä, viesti, keskustelunavaus)
-            res.redirect("/alue/" + req.params(":alueid") + "/keskustelut/" + Integer.parseInt(req.params(":keskusteluid")));
+            res.redirect("/alue/" + req.params(":alueid") + "/keskustelu/" + Integer.parseInt(req.params(":keskusteluid")));
             return "ok";
         });
     }
