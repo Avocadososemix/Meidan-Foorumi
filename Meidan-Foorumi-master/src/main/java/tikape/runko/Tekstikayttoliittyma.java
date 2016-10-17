@@ -63,7 +63,7 @@ public class Tekstikayttoliittyma {
                     List<AlueJaViestit> Kokeilu = aluedao.haeAlueetViesteineen();
                     System.out.println("Etsitään kaikki alueet ja viestien lkm: ");
                     for (AlueJaViestit a : Kokeilu) {
-                        System.out.println(a.getOtsikko() + " " + a.getViestit());
+                        System.out.println(a.getNimi() + " " + a.getViestit());
                     }
                 } catch (SQLException ex) {
                     System.out.println("Komento ei toiminut. Kaikkeutta ei löytynyt");
