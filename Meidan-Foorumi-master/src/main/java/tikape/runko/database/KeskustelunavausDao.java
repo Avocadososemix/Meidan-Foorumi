@@ -129,7 +129,8 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer>{
                     + "LEFT JOIN Viesti ON Viesti.keskustelunavaus=Keskustelunavaus.id "
                     + "WHERE Keskustelunavaus.alue = ? "
                     + "GROUP BY Keskustelunavaus.id "
-                    + "ORDER BY Viesti.aika DESC;"); 
+                    + "ORDER BY Viesti.aika DESC "
+                    + "LIMIT 10;"); 
             stmt.setInt(1, alueId);
             
             ResultSet rs = stmt.executeQuery();
