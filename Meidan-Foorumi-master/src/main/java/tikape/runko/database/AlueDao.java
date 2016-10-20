@@ -97,7 +97,8 @@ public class AlueDao implements Dao<Alue, Integer>{
         PreparedStatement stmt = connection.prepareStatement("SELECT Alue.alue_id, Alue.nimi, "
                 + "COUNT(Viesti.id) AS viestit "
                 + "FROM Alue LEFT JOIN Keskustelunavaus ON Keskustelunavaus.alue=Alue.alue_id "
-                + "LEFT JOIN Viesti ON Viesti.keskustelunavaus=Keskustelunavaus.id GROUP BY Alue.alue_id"); 
+                + "LEFT JOIN Viesti ON Viesti.keskustelunavaus=Keskustelunavaus.id GROUP BY Alue.alue_id "
+                + "ORDER BY Alue.nimi ASC"); 
 
         ResultSet rs = stmt.executeQuery();
         List<AlueJaViestit> alueet = new ArrayList<>();
