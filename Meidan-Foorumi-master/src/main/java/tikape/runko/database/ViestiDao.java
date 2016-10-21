@@ -55,7 +55,7 @@ public class ViestiDao implements Dao<Viesti, Integer>{
         Connection connection = this.database.getConnection();
         Statement stmt = connection.createStatement();
         stmt.execute("INSERT INTO Viesti (aika, lähettäjä, viesti, keskustelunavaus) "
-                + "VALUES (Datetime('now'), '" + lähettäjä + "', '" + viesti + "', " + keskustelunavaus + ")");
+                + "VALUES (Datetime('now', 'localtime'), '" + lähettäjä + "', '" + viesti + "', " + keskustelunavaus + ")");
         stmt.close();
         connection.close();
     }
