@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<link rel= 'stylesheet' href='/foorumityylit.css'/>
+
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -8,13 +10,12 @@
 </head>
 
     <body>
-        <h4 th:text="'Alue: ' + ${alue.nimi} + ' ---> ' + ${keskustelu.otsikko}">Alue ja keskustelu</h4>
-        <ul>
-            <li th:each="viesti : ${viestit}">
-                <span th:text="${viesti.viesti}">viesti</span>
-                <span th:text="'t. ' + ${viesti.lähettäjä}">lähettäjä</span>
-            </li>
-        </ul>
+        <h4 th:text="'Alue: ' + ${alue.nimi} + ' &rarr; ' + ${keskustelu.otsikko}">Alue ja keskustelu</h4>
+        <p th:each="viesti : ${viestit}">
+            <br th:text="${viesti.aika}">aika</br>
+            <br class="lähettäjä" th:text="${viesti.lähettäjä} + ':'">lähettäjä</br>
+            <br class="viesti" th:text="${viesti.viesti}">viesti</br>
+        </p>
         
             <!-- <input type="text" name="viesti"/> -->
             <textarea rows="4" cols="100" class="full-width" name="viesti" form="1">Kirjoita viestisi tähän</textarea>  

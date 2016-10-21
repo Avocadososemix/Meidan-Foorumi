@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<link rel= 'stylesheet' href='/foorumityylit.css'/>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Uuden keskustelun luominen</title>
+        <meta charset="UTF-8"> </meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+    </head>
+    <body>
+        <h3 th:text="'Luodaan uusi keskustelu ' + ${keskustelu} + ' alueeseen  ' + ${alue.nimi}">Luo uusi alue</h3>
+        
+        <textarea rows="4" cols="100" class="full-width" name="viesti" form="1">Kirjoita aloitusviestisi tähän</textarea>  
+        
+        <form method="POST" id ="1">
+            Lähettäjä:
+            <input type="text" name="lähettäjä"/>
+            <input type="submit" value="lähetä"/>
+        </form>
+        
+        <span> <a th:href="@{'~/alue/' + ${alue.id}}" th:text="'Peru keskustelun luominen'">Takaisin</a> </span>
+    </body>
+</html>
