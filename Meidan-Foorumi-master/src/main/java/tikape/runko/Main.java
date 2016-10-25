@@ -13,7 +13,6 @@ import tikape.runko.database.AlueDao;
 import tikape.runko.database.Database;
 import tikape.runko.database.KeskustelunavausDao;
 import tikape.runko.database.ViestiDao;
-import org.apache.commons.lang.StringEscapeUtils;
 
 
 
@@ -67,7 +66,7 @@ public class Main {
             return "ok";
         });
         
-        get("/alue/:alueid/keskustelu/:keskusteluid", (req, res) -> { 
+        /*get("/alue/:alueid/keskustelu/:keskusteluid", (req, res) -> { 
             HashMap map = new HashMap<>();
             map.put("viestit", viestiDao.etsiKeskustelunViestit(Integer.parseInt(req.params(":alueid")), Integer.parseInt(req.params(":keskusteluid")))); //ei toimi
             map.put("keskustelu", keskustelunavausDao.etsi(Integer.parseInt(req.params(":keskusteluid"))));
@@ -85,6 +84,7 @@ public class Main {
             res.redirect("/alue/" + req.params(":alueid") + "/keskustelu/" + Integer.parseInt(req.params(":keskusteluid")));
             return "ok";
         });
+        */
         
         get("/alue/:alueid/luouusikeskustelu", (req, res) -> { //näyttää sivun, jossa pyydetään keskustelunavaukselle 
             HashMap map = new HashMap<>();                                      //viestin ennen kuin se luodaan
@@ -108,9 +108,30 @@ public class Main {
             }
             Integer keskustelunavausId = keskustelunavausDao.tallenna(keskusteluNimi,Integer.parseInt(req.params(":alueid")));
             viestiDao.tallenna(lähettäjä, viesti, keskustelunavausId); //Viesti (aika, lähettäjä, viesti, keskustelunavaus)
-            res.redirect("/alue/" + req.params(":alueid") + "/keskustelu/" + keskustelunavausId);
+            res.redirect("/alue/" + req.params(":alueid") + "/keskustelu/" + keskustelunavausId + "/sivu/1");
             return "ok";
         });
+        
+        //Laurin:
+        get("/alue/:alueid/keskustelu/:keskusteluid/sivu/:sivunro", (req, res) -> { 
+            HashMap map = new HashMap<>();
+            map.put("viestit", viestiDao.etsiKeskustelunViestit(Integer.parseInt(req.params(":alueid")), Integer.parseInt(req.params(":keskusteluid")), (Integer.parseInt(req.params("sivunro")))));
+            map.put("keskustelu", keskustelunavausDao.etsi(Integer.parseInt(req.params(":keskusteluid"))));
+            map.put("alue", alueDao.etsi(Integer.parseInt(req.params(":alueid")))); 
+            map.put("seuraavasivu", Integer.toString(Integer.parseInt(req.params(":sivunro"))+1));
+            map.put("edellinensivu", Integer.toString(Integer.parseInt(req.params(":sivunro"))-1));
+            return new ModelAndView(map, "viestit");
+        }, new ThymeleafTemplateEngine());
+        
+        post("/alue/:alueid/keskustelu/:keskusteluid/sivu/:sivunro", (req, res) -> {
+            String lähettäjä = req.queryParams("lähettäjä");
+            String viesti = req.queryParams("viesti");
+            if (lähettäjä.trim().length() != 0 && viesti.trim().length() != 0) { //ei tyhjää viestiä tai lähettäjää
+                viestiDao.tallenna(req.queryParams("lähettäjä"), req.queryParams("viesti"), Integer.parseInt(req.params(":keskusteluid"))); //Viesti (aika, lähettäjä, viesti, keskustelunavaus)
+            }
+            res.redirect("/alue/" + req.params(":alueid") + "/keskustelu/" + Integer.parseInt(req.params(":keskusteluid")) + "/sivu/" + Integer.parseInt(req.params(":sivunro")));
+            return "ok";
+        });        
     }
     
 }

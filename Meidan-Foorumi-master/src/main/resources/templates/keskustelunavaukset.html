@@ -1,3 +1,4 @@
+<!-- Irenen -->
 <!DOCTYPE html>
 <link rel= 'stylesheet' href='/foorumityylit.css'/>
 
@@ -16,7 +17,7 @@
                <th>Viimeisin viesti</th>
             </tr>
             <tr th:each="keskustelunavaus: ${keskustelunavaukset}"> <!-- keskusteluid palauttaa oikein, alueid ei || muutettava Stringiksi?-->
-                <td><a th:href="@{'~/alue/' + ${alue.id} + '/keskustelu/' + ${keskustelunavaus.id}}" th:text="${keskustelunavaus.otsikko}">Alueen nimi</a></td>  <!-- "@{~/alue/{alueid}(alueid=${alue.id})/keskustelut/{keskusteluid}(keskusteluid=${keskustelunavaus.id})}" -->
+                <td><a th:href="@{'~/alue/' + ${alue.id} + '/keskustelu/' + ${keskustelunavaus.id} + '/sivu/' + '1'}" th:text="${keskustelunavaus.otsikko}">Alueen nimi</a></td>  <!-- "@{~/alue/{alueid}(alueid=${alue.id})/keskustelut/{keskusteluid}(keskusteluid=${keskustelunavaus.id})}" -->
                <td th:text="${keskustelunavaus.viestit}">Viestit yhteensä</td>
                <td th:text="${keskustelunavaus.viimeinenViesti}">Viimeisen viestin pvm</td>
             </tr>
@@ -26,6 +27,6 @@
           <input type="submit" value="Lisää keskustelu"/>
         </form> 
         <!-- Etusivu -->
-        <span> <a th:href="@{~/}" th:text='Etusivu'>Etusivu </a> </span>
+        <br><a th:href="@{~/}" th:text='Etusivu'>Etusivu </a></br>
     </body>
 </html>

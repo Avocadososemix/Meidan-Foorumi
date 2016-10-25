@@ -88,6 +88,47 @@ public class ViestiDao implements Dao<Viesti, Integer>{
 
         return viestit;    
     }
+
+    public List<Viesti> etsiKeskustelunViestit(Integer alue, Integer keskustelu , Integer sivunro) throws SQLException { //tietty alue ja keskustelu
+    
+        
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement(""
+                + "SELECT * FROM Viesti, Keskustelunavaus, Alue "
+                + "WHERE Viesti.keskustelunavaus = Keskustelunavaus.id "
+                + "AND Keskustelunavaus.alue=Alue.alue_id "
+                + "AND Keskustelunavaus.id = ? "
+                + "AND Alue.alue_id = ?"
+                + "LIMIT 10 OFFSET ((( ? -1)*10));");
+//                + "SELECT * FROM Viesti JOIN Keskustelunavaus ON Viesti.keskustelunavaus = Keskustelunavaus.id "
+//                + "WHERE Viesti.keskustelunavaus = ? "
+//                + "AND Keskustelunavaus.id = ?");
+        stmt.setInt(1, keskustelu);
+        stmt.setInt(2, alue);
+        stmt.setInt(3, sivunro);
+
+        
+        ResultSet rs = stmt.executeQuery();
+
+        List<Viesti> viestit = new ArrayList<>();
+        
+        while (rs.next()) {
+            Integer id = rs.getInt("id");
+            String aika = rs.getString("aika");
+            String viesti = rs.getString("viesti");
+            String lähettäjä = rs.getString("lähettäjä");
+            Integer keskustelunavaus = rs.getInt("keskustelunavaus");
+
+            viestit.add(new Viesti(id, aika, viesti, lähettäjä, keskustelunavaus));
+        }
+
+
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return viestit;    
+    }
     
     public List<Viesti> etsiKeskustelunViestit(Integer alue, Integer keskustelu) throws SQLException { //tietty alue ja keskustelu
         Connection connection = database.getConnection();
