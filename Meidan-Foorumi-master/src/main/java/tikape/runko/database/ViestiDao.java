@@ -53,9 +53,12 @@ public class ViestiDao implements Dao<Viesti, Integer>{
     public void tallenna(String lähettäjä, String viesti, Integer keskustelunavaus) throws SQLException {
         //Datetime('now'); hakee tämänhetkisen ajan 
         Connection connection = this.database.getConnection();
-        Statement stmt = connection.createStatement();
-        stmt.execute("INSERT INTO Viesti (aika, lähettäjä, viesti, keskustelunavaus) "
-                + "VALUES (Datetime('now', 'localtime'), '" + lähettäjä + "', '" + viesti + "', " + keskustelunavaus + ")");
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Viesti (aika, lähettäjä, viesti, keskustelunavaus) "
+                + "VALUES (Datetime('now', 'localtime'), ?, ?, ?)");
+        stmt.setString(1, lähettäjä);
+        stmt.setString(2, viesti);
+        stmt.setInt(3, keskustelunavaus);
+        stmt.execute();
         stmt.close();
         connection.close();
     }

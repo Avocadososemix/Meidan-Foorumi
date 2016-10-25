@@ -48,9 +48,10 @@ public class AlueDao implements Dao<Alue, Integer>{
 
     public void tallenna(String nimi) throws SQLException {
         Connection connection = this.database.getConnection();
-        Statement stmt = connection.createStatement();
-        stmt.execute("INSERT INTO Alue(nimi) "
-                + "VALUES ('" + nimi + "')");
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Alue(nimi) "
+                + "VALUES (?)");
+        stmt.setString(1, nimi);
+        stmt.execute();
         stmt.close();
         connection.close();
     }

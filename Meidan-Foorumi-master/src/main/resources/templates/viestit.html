@@ -25,8 +25,6 @@
             <input type="text" name="lähettäjä"/>
             <input type="submit" value="lähetä"/>
         </form>
-            <!-- Etusivu --> 
-            <!-- Keskustelut -->
         <a th:href="@{~/}" th:text='Etusivu'>Etusivu </a>
         <a th:href="@{'~/alue/' + ${alue.id}}">Keskustelut</a>
     </body>

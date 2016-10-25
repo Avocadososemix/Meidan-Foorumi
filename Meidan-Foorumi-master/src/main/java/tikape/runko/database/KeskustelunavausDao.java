@@ -52,9 +52,11 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer>{
 
     public Integer tallenna(String otsikko, Integer alue) throws SQLException {
         Connection connection = this.database.getConnection();
-        Statement stmt = connection.createStatement();
-        stmt.execute("INSERT INTO Keskustelunavaus(otsikko, alue) "
-                + "VALUES ('" + otsikko + "', " + alue + ")");
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Keskustelunavaus(otsikko, alue) "
+                + "VALUES (?, ?)");
+        stmt.setString(1, otsikko);
+        stmt.setInt(2, alue);
+        stmt.execute();
         stmt.close();
         
         //luo kysely, joka palauttaa luodun keskustelunavauksen id:n 

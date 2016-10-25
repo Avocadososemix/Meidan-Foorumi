@@ -2,6 +2,7 @@
 //ei tyhjiä alueita tai keskusteluja
 package tikape.runko;
 
+import java.nio.charset.Charset;
 import java.util.*;
 import spark.ModelAndView;
 import spark.Spark;
@@ -12,6 +13,9 @@ import tikape.runko.database.AlueDao;
 import tikape.runko.database.Database;
 import tikape.runko.database.KeskustelunavausDao;
 import tikape.runko.database.ViestiDao;
+import org.apache.commons.lang.StringEscapeUtils;
+
+
 
 public class Main {
 
@@ -33,7 +37,9 @@ public class Main {
         post("/", (req, res) -> {
             String alueNimi = req.queryParams("alue");
             alueNimi = alueNimi.trim();
-            if (alueNimi.length() > 3 && alueNimi.length() < 25) {           //tarkistaa, että alueen nimi ei ole tyhjä tai pelkkiä välilyöntejä
+            System.out.println("Alueen nimi: " + alueNimi);
+            if (alueNimi.length() > 2 && alueNimi.length() < 25) {           //tarkistaa, että alueen nimi ei ole tyhjä tai pelkkiä välilyöntejä
+                System.out.println("Alueen nimen pituus on " + alueNimi.length());
                 alueDao.tallenna(req.queryParams("alue"));
             }
             res.redirect("/");
@@ -51,13 +57,13 @@ public class Main {
         post("/alue/:alueid", (req, res) -> { //alueen id  --> näyttää keskustelut
             // vanha metodi, joka tallensi suoraan --> Integer keskustelunavausId = keskustelunavausDao.tallenna(req.queryParams("keskustelunavaus"), Integer.parseInt(req.params(":alueid")));
             //req.params palauttaa Stringin, jonka Integer.parseInt muuttaa luvuksi
-            String keskustelu = req.queryParams("keskustelunavaus"); //tallentaa syötetyn keskustelunavauksen nimen
-            keskustelu = keskustelu.trim();
-            if (keskustelu.length() < 3 || keskustelu.length() > 35) {                  // ei tyhjää otsikkoa
+            //String keskustelu = req.queryParams("keskustelunavaus"); //tallentaa syötetyn keskustelunavauksen nimen
+            //keskustelu = keskustelu.trim();
+            /*if (keskustelu.length() < 3 || keskustelu.length() > 35) {                  // ei tyhjää otsikkoa
                 res.redirect("/alue/" + req.params(":alueid"));
                 return "ok";
-            }
-            res.redirect("/alue/" + req.params(":alueid") + "/luouusikeskustelu/"+ keskustelu); //ohjataan luomaan viesti --keskustelunavauksen id
+            }*/
+            res.redirect("/alue/" + req.params(":alueid") + "/luouusikeskustelu"); //ohjataan luomaan viesti --keskustelunavauksen id
             return "ok";
         });
         
@@ -80,20 +86,24 @@ public class Main {
             return "ok";
         });
         
-        get("/alue/:alueid/luouusikeskustelu/:keskusteluNimi", (req, res) -> { //näyttää sivun, jossa pyydetään keskustelunavaukselle 
+        get("/alue/:alueid/luouusikeskustelu", (req, res) -> { //näyttää sivun, jossa pyydetään keskustelunavaukselle 
             HashMap map = new HashMap<>();                                      //viestin ennen kuin se luodaan
-            map.put("keskustelu", (req.params(":keskusteluNimi")));
+            //String keskusteluNimi = req.params(":keskusteluNimi");
+            //map.put("keskustelu", keskustelu);
             map.put("alue", alueDao.etsi(Integer.parseInt(req.params(":alueid"))));
             
             return new ModelAndView(map, "uusiKeskustelu");
         }, new ThymeleafTemplateEngine());
         
-        post("/alue/:alueid/luouusikeskustelu/:keskusteluNimi", (req, res) -> { //tallentaa annetun keskustelunavauksen ja viestin
-            String keskusteluNimi = req.params(":keskusteluNimi");
+        post("/alue/:alueid/luouusikeskustelu", (req, res) -> { //tallentaa annetun keskustelunavauksen ja viestin
+            String keskusteluNimi = req.queryParams("keskustelunavaus");
             String lähettäjä = req.queryParams("lähettäjä");
             String viesti = req.queryParams("viesti");
-            if (keskusteluNimi.trim().length() == 0 || lähettäjä.trim().length() == 0 || viesti.trim().length() == 0) {
-                res.redirect("/alue/" + req.params(":alueid") + "/luouusikeskustelu/" + req.params("keskusteluNimi"));
+            System.out.println("KeskusteluNimi: " + keskusteluNimi);
+            System.out.println("lähettäjä: " + lähettäjä);
+            System.out.println("viesti: " + viesti);
+            if (lähettäjä.trim().length() == 0 || viesti.trim().length() == 0 || keskusteluNimi.trim().length() < 2 || keskusteluNimi.trim().length() > 35) {
+                res.redirect("/alue/" + req.params(":alueid") + "/luouusikeskustelu");
                 return "ok";
             }
             Integer keskustelunavausId = keskustelunavausDao.tallenna(keskusteluNimi,Integer.parseInt(req.params(":alueid")));
