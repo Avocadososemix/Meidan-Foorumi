@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<link rel= 'stylesheet' href='/foorumityylit.css'/>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Foorumimme viestit</title>
+    <meta charset="UTF-8"> </meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+</head>
+
+    <body>
+        <h4 th:text="'Alue: ' + ${alue.nimi} + ' &rarr; ' + ${keskustelu.otsikko}">Alue ja keskustelu</h4>
+        <p th:each="viesti : ${viestit}">
+            <br th:text="${viesti.aika}">aika</br>
+            <br th:text="${viesti.lähettäjä} + ':'">lähettäjä</br>
+            <br th:text="${viesti.viesti}">viesti</br>
+        </p>
+        
+            <!-- <input type="text" name="viesti"/> -->
+            <textarea rows="4" cols="100" class="full-width" name="viesti" form="1">Kirjoita viestisi tähän</textarea>  
+        
+        <form method="POST" id ="1">
+            Lähettäjä:
+            <input type="text" name="lähettäjä"/>
+            <input type="submit" value="lähetä"/>
+        </form>
+            <br><a th:href="@{'~/alue/' + ${alue.id} + '/keskustelu/' + ${keskustelu.id} + '/sivu/' + ${edellinensivu}}">Edellinen sivu</a>
+                <a th:href="@{'~/alue/' + ${alue.id} + '/keskustelu/' + ${keskustelu.id} + '/sivu/' + ${seuraavasivu}}">Seuraava sivu</a></br>
+            <br><a th:href="@{~/}">Etusivu </a>
+                <a th:href="@{'~/alue/' + ${alue.id}}">Keskustelut</a></br>
+    </body>
+</html>

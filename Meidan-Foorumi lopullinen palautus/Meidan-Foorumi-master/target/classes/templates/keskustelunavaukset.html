@@ -1,0 +1,32 @@
+<!-- Irenen -->
+<!DOCTYPE html>
+<link rel= 'stylesheet' href='/foorumityylit.css'/>
+
+<html class="center" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Foorumimme keskustelut</title>
+    <meta charset="UTF-8"> </meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+</head>
+    <body>
+        <table> 
+            <tr>
+               <th th:text="'Alue: ' + ${alue.nimi}">Alue </th>
+               <th>Viestejä yhteensä</th>
+               <th>Viimeisin viesti</th>
+            </tr>
+            <tr th:each="keskustelunavaus: ${keskustelunavaukset}"> <!-- keskusteluid palauttaa oikein, alueid ei || muutettava Stringiksi?-->
+                <td><a th:href="@{'~/alue/' + ${alue.id} + '/keskustelu/' + ${keskustelunavaus.id} + '/sivu/' + '1'}" th:text="${keskustelunavaus.otsikko}">Alueen nimi</a></td>  <!-- "@{~/alue/{alueid}(alueid=${alue.id})/keskustelut/{keskusteluid}(keskusteluid=${keskustelunavaus.id})}" -->
+               <td th:text="${keskustelunavaus.viestit}">Viestit yhteensä</td>
+               <td th:text="${keskustelunavaus.viimeinenViesti}">Viimeisen viestin pvm</td>
+            </tr>
+        </table>                                                
+        <form method="POST"> <!-- actonia ei tarvita, sillä lähettää samalle sivulle -->
+          <!-- <input type="text" name="keskustelunavaus"/> -->
+          <input type="submit" value="Lisää keskustelu"/>
+        </form> 
+        <!-- Etusivu -->
+        <br><a th:href="@{~/}">Etusivu </a></br>
+    </body>
+</html>
