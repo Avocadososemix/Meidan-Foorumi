@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tikape.runko.database;
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,10 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Viesti;
 
-/** Kopioin tänne vastaavanlaiset koodinpätkät kuin Irene oli tehnyt AlueDaohon ja muutin ViestiDao-kohtaisiksi. t. Lauri
- *
- * @author nikkaire
- */
 public class ViestiDao {
     
     private Database database;
@@ -25,32 +16,7 @@ public class ViestiDao {
     public ViestiDao(Database database) {
         this.database = database;
     }
-
-    /*
-    public List<Viesti> etsiKaikki() throws SQLException {
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti"); //Vältä SQL-injektiot
-        
-        ResultSet rs = stmt.executeQuery();
-        List<Viesti> viestit = new ArrayList<>();
-        while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String aika = rs.getString("aika");
-            String nimi = rs.getString("nimi");
-            String lähettäjä = rs.getString("lähettäjä");
-            Integer keskustelunavaus = rs.getInt("keskustelunavaus");
-
-            viestit.add(new Viesti(id, aika, nimi, lähettäjä, keskustelunavaus));
-        }
-
-        rs.close();
-        stmt.close();
-        connection.close();
-
-        return viestit;
-    }
-    */
-
+    
     public void tallenna(String lähettäjä, String viesti, Integer keskustelunavaus) throws SQLException {
         //Datetime('now'); hakee tämänhetkisen ajan 
         Connection connection = this.database.getConnection();
@@ -63,35 +29,7 @@ public class ViestiDao {
         stmt.close();
         connection.close();
     }
-
-    /*
-    public List<Viesti> etsiTietyt(Integer key) throws SQLException { //tarvitaanko?
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE id = ?");
-        stmt.setObject(1, key);
-        
-        ResultSet rs = stmt.executeQuery();
-
-        List<Viesti> viestit = new ArrayList<>();
-        
-        while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String aika = rs.getString("aika");
-            String nimi = rs.getString("nimi");
-            String lähettäjä = rs.getString("lähettäjä");
-
-            viestit.add(new Viesti(id, aika, nimi, lähettäjä));
-        }
-
-
-        rs.close();
-        stmt.close();
-        connection.close();
-
-        return viestit;    
     
-*/
-
     public List<Viesti> etsiKeskustelunViestit(Integer alue, Integer keskustelu , Integer sivunro) throws SQLException { //tietty alue ja keskustelu
     
         
@@ -102,10 +40,6 @@ public class ViestiDao {
                 + "AND Keskustelunavaus.alue=Alue.alue_id "
                 + "AND Keskustelunavaus.id = ? "
                 + "AND Alue.alue_id = ?"
-                + "LIMIT 10 OFFSET ((( ? -1)*10));");
-//                + "SELECT * FROM Viesti JOIN Keskustelunavaus ON Viesti.keskustelunavaus = Keskustelunavaus.id "
-//                + "WHERE Viesti.keskustelunavaus = ? "
-//                + "AND Keskustelunavaus.id = ?");
         stmt.setInt(1, keskustelu);
         stmt.setInt(2, alue);
         stmt.setInt(3, sivunro);
@@ -141,9 +75,6 @@ public class ViestiDao {
                 + "AND Keskustelunavaus.alue=Alue.alue_id "
                 + "AND Keskustelunavaus.id = ? "
                 + "AND Alue.alue_id = ?");
-//                + "SELECT * FROM Viesti JOIN Keskustelunavaus ON Viesti.keskustelunavaus = Keskustelunavaus.id "
-//                + "WHERE Viesti.keskustelunavaus = ? "
-//                + "AND Keskustelunavaus.id = ?");
         stmt.setInt(1, keskustelu);
         stmt.setInt(2, alue);
         
