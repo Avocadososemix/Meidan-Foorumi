@@ -1,5 +1,3 @@
-//lisää keskustelunavaus
-//ei tyhjiä alueita tai keskusteluja
 package tikape.runko;
 
 import java.nio.charset.Charset;
