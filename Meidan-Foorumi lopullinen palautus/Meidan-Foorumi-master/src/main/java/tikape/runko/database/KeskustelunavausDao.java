@@ -27,30 +27,6 @@ public class KeskustelunavausDao {
         this.database = database;
     }
 
-    /*
-    public List<Keskustelunavaus> etsiKaikki() throws SQLException {
-        Connection connection = this.database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Keskustelunavaus"); //Vältä SQL-injektiot
-        
-        ResultSet rs = stmt.executeQuery();
-        List<Keskustelunavaus> keskustelunavaukset = new ArrayList<>();
-        while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String otsikko = rs.getString("otsikko");
-            Integer alue = rs.getInt("alue");
-            //"Viimeisin_viesti" poistettu, ei enää tässä luokassa.
-
-            keskustelunavaukset.add(new Keskustelunavaus(id, otsikko, alue));
-        }
-
-        rs.close();
-        stmt.close();
-        connection.close();
-
-        return keskustelunavaukset;
-    }
-    */
-
     public Integer tallenna(String otsikko, Integer alue) throws SQLException {
         Connection connection = this.database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Keskustelunavaus(otsikko, alue) "
@@ -72,32 +48,6 @@ public class KeskustelunavausDao {
         connection.close();
         return id;
     }
-    /*
-    public List<Keskustelunavaus> etsiTietyt(Integer key) throws SQLException { //tarvitaanko tätä metodia?
-        Connection connection = this.database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Keskustelunavaus WHERE id = ?");
-        stmt.setObject(1, key);
-
-        ResultSet rs = stmt.executeQuery();
-
-        List<Keskustelunavaus> keskustelunavaukset = new ArrayList<>();
-        
-        while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String otsikko = rs.getString("otsikko");
-            Integer alue = rs.getInt("alue");
-
-            keskustelunavaukset.add(new Keskustelunavaus(id, otsikko, alue));
-        }
-
-
-        rs.close();
-        stmt.close();
-        connection.close();
-
-        return keskustelunavaukset;    
-    }
-    */
     
     public Keskustelunavaus etsi(Integer key) throws SQLException {                
         Connection connection = database.getConnection();
